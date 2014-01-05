@@ -16,7 +16,6 @@
 
 package be.crydust.regexcoach;
 
-import java.util.regex.Pattern;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -26,7 +25,7 @@ import javax.swing.text.BadLocationException;
  *
  * IMPORTANT: This class MUST NEVER change the state of the UI
  */
-public class UiState {
+public class HighlighterUiState {
 
     final String regex;
     final String selectionRegex;
@@ -53,15 +52,16 @@ public class UiState {
     int highlightEnd = 0;
     boolean selectionMatched = false;
 
-    public UiState(Gui swing) {
+    public HighlighterUiState(Gui swing) {
         // note: get the text from the underlying document,
         // otherwise carriage return/line feeds different when using the JTextPane text
         try {
-            regex = swing.getRegexPane().getDocument().getText(0, swing.getRegexPane().getDocument().getLength());
-            target = swing.getTargetPane().getDocument().getText(0, swing.getTargetPane().getDocument().getLength()); //Capture selected range for the regex
+            regex = GuiReader.readRegex(swing);
+            target = GuiReader.readTarget(swing);
         } catch (BadLocationException ex) {
             throw new UnrecoverableException(ex);
         }
+        //Capture selected range for the regex
         regexSelectStart = swing.getRegexPane().getSelectionStart();
         regexSelectEnd = swing.getRegexPane().getSelectionEnd();
         regexSelectCaret = swing.getRegexPane().getCaret().getDot();
@@ -81,32 +81,7 @@ public class UiState {
         }
 
         //Build regex flags
-        int patternFlagsBuilder = 0;
-        if (swing.getRegexOptCaseInsensitive().isSelected()) {
-            patternFlagsBuilder |= Pattern.CASE_INSENSITIVE;
-        }
-        if (swing.getRegexOptMultiline().isSelected()) {
-            patternFlagsBuilder |= Pattern.MULTILINE;
-        }
-        if (swing.getRegexOptDotAll().isSelected()) {
-            patternFlagsBuilder |= Pattern.DOTALL;
-        }
-        if (swing.getRegexOptComments().isSelected()) {
-            patternFlagsBuilder |= Pattern.COMMENTS;
-        }
-        if (swing.getRegexOptCanonEq().isSelected()) {
-            patternFlagsBuilder |= Pattern.CANON_EQ;
-        }
-        if (swing.getRegexOptLiteral().isSelected()) {
-            patternFlagsBuilder |= Pattern.LITERAL;
-        }
-        if (swing.getRegexOptUnicodeCase().isSelected()) {
-            patternFlagsBuilder |= Pattern.UNICODE_CASE;
-        }
-        if (swing.getRegexOptUnixLines().isSelected()) {
-            patternFlagsBuilder |= Pattern.UNIX_LINES;
-        }
-        patternFlags = patternFlagsBuilder;
+        patternFlags = GuiReader.readPatternFlags(swing);
 
         //Get trim start/end
         targetStart = Math.min((Integer) swing.getStartOfString().getValue(), target.length());
@@ -149,7 +124,7 @@ public class UiState {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        UiState other = (UiState) obj;
+        HighlighterUiState other = (HighlighterUiState) obj;
         if (highlightGroup != other.highlightGroup) {
             return false;
         }

@@ -43,7 +43,7 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
     //Deal with concurrent UI updates by tracking if we need to do an update and if we are currently in an update
     private final AtomicBoolean doUpdate = new AtomicBoolean(false);
     private final AtomicBoolean inHighlights = new AtomicBoolean(false);
-    private volatile UiState lastUiState = null;
+    private volatile HighlighterUiState lastUiState = null;
     private final Gui swing;
 
     @Override
@@ -91,12 +91,12 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
         try {
             //Keep checking to see if the UI has changed as long as doUpdate is true
             while (doUpdate.compareAndSet(true, false)) {
-                UiState currentState = new UiState(swing);
+                HighlighterUiState currentState = new HighlighterUiState(swing);
                 if (currentState.equals(lastUiState)) {
                     //Nothing changed since the last update, don't bother doing anything
                     return;
                 }
-                UiState prevUiState = lastUiState;
+                HighlighterUiState prevUiState = lastUiState;
                 lastUiState = currentState;
 
                 //trim the target string

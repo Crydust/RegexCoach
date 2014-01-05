@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package be.crydust.regexcoach;
 
 import javax.swing.ButtonGroup;
@@ -21,6 +20,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 public class Gui extends javax.swing.JFrame {
@@ -43,6 +43,7 @@ public class Gui extends javax.swing.JFrame {
 
         highlightButtonGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -54,7 +55,9 @@ public class Gui extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         targetPane = new javax.swing.JTextPane();
         targetStatus = new javax.swing.JLabel();
-        bottomPanel = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        controlPanelWrapper = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
         regexOptCaseInsensitive = new javax.swing.JCheckBox();
         regexOptMultiline = new javax.swing.JCheckBox();
         regexOptDotAll = new javax.swing.JCheckBox();
@@ -83,14 +86,24 @@ public class Gui extends javax.swing.JFrame {
         jPanel13 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         endOfString = new javax.swing.JSpinner();
+        replacePanel = new javax.swing.JPanel();
+        jSplitPane3 = new javax.swing.JSplitPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        replacementPane = new javax.swing.JTextPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        substitutionArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("The Java Regex Coach");
+        setMinimumSize(new java.awt.Dimension(600, 600));
         setPreferredSize(new java.awt.Dimension(600, 600));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jSplitPane2.setDividerLocation(200);
+        jSplitPane1.setDividerLocation(300);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jSplitPane2.setDividerLocation(150);
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -121,50 +134,52 @@ public class Gui extends javax.swing.JFrame {
 
         jSplitPane2.setRightComponent(jPanel4);
 
-        jPanel1.add(jSplitPane2, java.awt.BorderLayout.CENTER);
+        jSplitPane1.setLeftComponent(jSplitPane2);
 
-        bottomPanel.setLayout(new java.awt.GridLayout(4, 4));
+        controlPanelWrapper.setLayout(new java.awt.BorderLayout());
+
+        controlPanel.setLayout(new java.awt.GridLayout(4, 4));
 
         regexOptCaseInsensitive.setText("Case Insensitive");
         regexOptCaseInsensitive.setActionCommand("");
-        bottomPanel.add(regexOptCaseInsensitive);
+        controlPanel.add(regexOptCaseInsensitive);
 
         regexOptMultiline.setText("Multline");
         regexOptMultiline.setActionCommand("");
         regexOptMultiline.setName(""); // NOI18N
-        bottomPanel.add(regexOptMultiline);
+        controlPanel.add(regexOptMultiline);
 
         regexOptDotAll.setText("Dot All");
         regexOptDotAll.setActionCommand("");
         regexOptDotAll.setName(""); // NOI18N
-        bottomPanel.add(regexOptDotAll);
+        controlPanel.add(regexOptDotAll);
 
         regexOptComments.setText("Comments");
-        bottomPanel.add(regexOptComments);
+        controlPanel.add(regexOptComments);
 
         regexOptCanonEq.setText("Canonical Eq");
-        bottomPanel.add(regexOptCanonEq);
+        controlPanel.add(regexOptCanonEq);
 
         regexOptLiteral.setText("Literal");
-        bottomPanel.add(regexOptLiteral);
+        controlPanel.add(regexOptLiteral);
 
         regexOptUnicodeCase.setText("Unicode-Aware Case");
-        bottomPanel.add(regexOptUnicodeCase);
+        controlPanel.add(regexOptUnicodeCase);
 
         regexOptUnixLines.setText("Unix Lines");
-        bottomPanel.add(regexOptUnixLines);
+        controlPanel.add(regexOptUnixLines);
 
         jLabel3.setText("Highllight:");
-        bottomPanel.add(jLabel3);
+        controlPanel.add(jLabel3);
 
         highlightButtonGroup.add(highlightSelection);
         highlightSelection.setText("selection");
         highlightSelection.setEnabled(false);
-        bottomPanel.add(highlightSelection);
+        controlPanel.add(highlightSelection);
 
         highlightButtonGroup.add(highlightNone);
         highlightNone.setText("nothing");
-        bottomPanel.add(highlightNone);
+        controlPanel.add(highlightNone);
 
         highlightButtonGroup.add(highlightGroup);
         highlightGroup.setSelected(true);
@@ -180,8 +195,8 @@ public class Gui extends javax.swing.JFrame {
         groupCount.setText("0");
         jPanel7.add(groupCount);
 
-        bottomPanel.add(jPanel7);
-        bottomPanel.add(filler2);
+        controlPanel.add(jPanel7);
+        controlPanel.add(filler2);
 
         jLabel5.setText("Match");
         jPanel11.add(jLabel5);
@@ -195,7 +210,7 @@ public class Gui extends javax.swing.JFrame {
         matchCount.setText("0");
         jPanel11.add(matchCount);
 
-        bottomPanel.add(jPanel11);
+        controlPanel.add(jPanel11);
 
         jLabel7.setText("String Start");
         jPanel12.add(jLabel7);
@@ -203,7 +218,7 @@ public class Gui extends javax.swing.JFrame {
         startOfString.setModel(new javax.swing.SpinnerNumberModel(0, 0, 0, 1));
         jPanel12.add(startOfString);
 
-        bottomPanel.add(jPanel12);
+        controlPanel.add(jPanel12);
 
         jLabel8.setText("String End");
         jPanel13.add(jLabel8);
@@ -211,9 +226,35 @@ public class Gui extends javax.swing.JFrame {
         endOfString.setModel(new javax.swing.SpinnerNumberModel(0, 0, 0, 1));
         jPanel13.add(endOfString);
 
-        bottomPanel.add(jPanel13);
+        controlPanel.add(jPanel13);
 
-        jPanel1.add(bottomPanel, java.awt.BorderLayout.SOUTH);
+        controlPanelWrapper.add(controlPanel, java.awt.BorderLayout.NORTH);
+
+        jTabbedPane1.addTab("Control", controlPanelWrapper);
+
+        replacePanel.setLayout(new java.awt.BorderLayout());
+
+        jSplitPane3.setDividerLocation(100);
+        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jScrollPane2.setViewportView(replacementPane);
+
+        jSplitPane3.setLeftComponent(jScrollPane2);
+
+        substitutionArea.setColumns(20);
+        substitutionArea.setRows(5);
+        substitutionArea.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        jScrollPane4.setViewportView(substitutionArea);
+
+        jSplitPane3.setRightComponent(jScrollPane4);
+
+        replacePanel.add(jSplitPane3, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane1.addTab("Replace", replacePanel);
+
+        jSplitPane1.setRightComponent(jTabbedPane1);
+
+        jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -338,8 +379,17 @@ public class Gui extends javax.swing.JFrame {
         return targetStatus;
     }
 
+    public JTextPane getReplacementPane() {
+        return replacementPane;
+    }
+
+    public JTextArea getSubstitutionArea() {
+        return substitutionArea;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JPanel controlPanel;
+    private javax.swing.JPanel controlPanelWrapper;
     private javax.swing.JSpinner endOfString;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel groupCount;
@@ -364,8 +414,13 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel matchCount;
     private javax.swing.JSpinner matchNumber;
     private javax.swing.JCheckBox regexOptCanonEq;
@@ -378,7 +433,10 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox regexOptUnixLines;
     private javax.swing.JTextPane regexPane;
     private javax.swing.JLabel regexStatus;
+    private javax.swing.JPanel replacePanel;
+    private javax.swing.JTextPane replacementPane;
     private javax.swing.JSpinner startOfString;
+    private javax.swing.JTextArea substitutionArea;
     private javax.swing.JTextPane targetPane;
     private javax.swing.JLabel targetStatus;
     // End of variables declaration//GEN-END:variables

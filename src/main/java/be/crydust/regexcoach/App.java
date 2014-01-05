@@ -26,6 +26,7 @@ public class App {
             public void run() {
                 Gui swing = new Gui();
                 RegexHighlighter highlighter = new RegexHighlighter(swing);
+                RegexReplacer replacer = new RegexReplacer(swing);
 
                 // Text area mod listeners
                 swing.getRegexPane().addKeyListener(highlighter);
@@ -53,6 +54,24 @@ public class App {
                 swing.getHighlightGroup().addActionListener(highlighter);
                 swing.getHighlightGroupNumber().addChangeListener(highlighter);
 
+                
+                // Text area mod listeners
+                swing.getRegexPane().addKeyListener(replacer);
+                swing.getTargetPane().addKeyListener(replacer);
+                swing.getReplacementPane().addKeyListener(replacer);
+
+                // Regex Options listeners
+                swing.getRegexOptCaseInsensitive().addActionListener(replacer);
+                swing.getRegexOptMultiline().addActionListener(replacer);
+                swing.getRegexOptDotAll().addActionListener(replacer);
+                swing.getRegexOptComments().addActionListener(replacer);
+                swing.getRegexOptCanonEq().addActionListener(replacer);
+                swing.getRegexOptLiteral().addActionListener(replacer);
+                swing.getRegexOptUnicodeCase().addActionListener(replacer);
+                swing.getRegexOptUnixLines().addActionListener(replacer);
+
+                
+                
                 swing.pack();
                 swing.setLocationRelativeTo(null);
                 swing.setVisible(true);
