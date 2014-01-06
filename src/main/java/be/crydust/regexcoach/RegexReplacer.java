@@ -82,34 +82,34 @@ public class RegexReplacer extends KeyAdapter implements ActionListener {
                 //There is a regex and a target
                 try {
                     swing.getReplacementPane().getHighlighter().removeAllHighlights();
-                    if (currentState.regex.length() > 0) {
+                    if (currentState.getRegex().length() > 0) {
                         //create the pattern & matcher
-                        Pattern pattern = Pattern.compile(currentState.regex, currentState.patternFlags);
-                        Matcher matcher = pattern.matcher(currentState.target);
+                        Pattern pattern = Pattern.compile(currentState.getRegex(), currentState.getPatternFlags());
+                        Matcher matcher = pattern.matcher(currentState.getTarget());
 
                         StringBuffer stringBuffer = new StringBuffer();
                         while (matcher.find()) {
-                            matcher.appendReplacement(stringBuffer, currentState.replacement);
+                            matcher.appendReplacement(stringBuffer, currentState.getReplacement());
                         }
                         matcher.appendTail(stringBuffer);
-                        currentState.substitution = stringBuffer.toString();
+                        currentState.setSubstitution(stringBuffer.toString());
                     }
                 } catch (StringIndexOutOfBoundsException e) {
-                    currentState.substitution = "#ERROR StringIndexOutOfBoundsException " + e.getMessage();
+                    currentState.setSubstitution("#ERROR StringIndexOutOfBoundsException " + e.getMessage());
                     try {
-                        swing.getReplacementPane().getHighlighter().addHighlight(currentState.replacement.length() - 1, currentState.replacement.length(), red);
+                        swing.getReplacementPane().getHighlighter().addHighlight(currentState.getReplacement().length() - 1, currentState.getReplacement().length(), red);
                     } catch (BadLocationException ex) {
                         throw new UnrecoverableException(ex);
                     }
                 } catch (PatternSyntaxException e) {
-                    currentState.substitution = "#ERROR PatternSyntaxException " + e.getMessage();
+                    currentState.setSubstitution("#ERROR PatternSyntaxException " + e.getMessage());
                 } catch (IllegalArgumentException e) {
-                    currentState.substitution = "#ERROR IllegalArgumentException " + e.getMessage();
+                    currentState.setSubstitution("#ERROR IllegalArgumentException " + e.getMessage());
                 } catch (IndexOutOfBoundsException e) {
-                    currentState.substitution = "#ERROR IndexOutOfBoundsException " + e.getMessage();
+                    currentState.setSubstitution("#ERROR IndexOutOfBoundsException " + e.getMessage());
                 }
 
-                swing.getSubstitutionArea().setText(currentState.substitution);
+                swing.getSubstitutionArea().setText(currentState.getSubstitution());
             }
         } finally {
             //Make sure we note that we're done updating

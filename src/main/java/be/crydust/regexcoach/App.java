@@ -54,7 +54,7 @@ public class App {
                 swing.getHighlightGroup().addActionListener(highlighter);
                 swing.getHighlightGroupNumber().addChangeListener(highlighter);
 
-                
+
                 // Text area mod listeners
                 swing.getRegexPane().addKeyListener(replacer);
                 swing.getTargetPane().addKeyListener(replacer);
@@ -70,8 +70,8 @@ public class App {
                 swing.getRegexOptUnicodeCase().addActionListener(replacer);
                 swing.getRegexOptUnixLines().addActionListener(replacer);
 
-                
-                
+
+
                 swing.pack();
                 swing.setLocationRelativeTo(null);
                 swing.setVisible(true);

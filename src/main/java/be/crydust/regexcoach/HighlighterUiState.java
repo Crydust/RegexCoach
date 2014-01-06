@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package be.crydust.regexcoach;
 
+import java.util.Objects;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -27,30 +27,30 @@ import javax.swing.text.BadLocationException;
  */
 public class HighlighterUiState {
 
-    final String regex;
-    final String selectionRegex;
-    final String target;
-    final int regexSelectStart;
-    final int regexSelectEnd;
-    final int regexSelectCaret;
-    final int targetSelectStart;
-    final int targetSelectEnd;
-    final int targetSelectCaret;
-    final int patternFlags;
-    final int targetStart;
-    final int targetEnd;
-    final int matchIndex;
-    final boolean highlightSelection;
-    final boolean highlightGroup;
-    final int highlightGroupNumber;
+    private final String regex;
+    private final String selectionRegex;
+    private final String target;
+    private final int regexSelectStart;
+    private final int regexSelectEnd;
+    private final int regexSelectCaret;
+    private final int targetSelectStart;
+    private final int targetSelectEnd;
+    private final int targetSelectCaret;
+    private final int patternFlags;
+    private final int targetStart;
+    private final int targetEnd;
+    private final int matchIndex;
+    private final boolean highlightSelection;
+    private final boolean highlightGroup;
+    private final int highlightGroupNumber;
 
-    int matchCount = 0;
-    int groupCount = 0;
-    int matchStart = 0;
-    int matchEnd = 0;
-    int highlightStart = 0;
-    int highlightEnd = 0;
-    boolean selectionMatched = false;
+    private int matchCount = 0;
+    private int groupCount = 0;
+    private int matchStart = 0;
+    private int matchEnd = 0;
+    private int highlightStart = 0;
+    private int highlightEnd = 0;
+    private boolean selectionMatched = false;
 
     public HighlighterUiState(Gui swing) {
         // note: get the text from the underlying document,
@@ -96,24 +96,42 @@ public class HighlighterUiState {
         highlightGroupNumber = (Integer) swing.getHighlightGroupNumber().getValue();
     }
 
+    public HighlighterUiState(String regex, String selectionRegex, String target, int regexSelectStart, int regexSelectEnd, int regexSelectCaret, int targetSelectStart, int targetSelectEnd, int targetSelectCaret, int patternFlags, int targetStart, int targetEnd, int matchIndex, boolean highlightSelection, boolean highlightGroup, int highlightGroupNumber) {
+        this.regex = regex;
+        this.selectionRegex = selectionRegex;
+        this.target = target;
+        this.regexSelectStart = regexSelectStart;
+        this.regexSelectEnd = regexSelectEnd;
+        this.regexSelectCaret = regexSelectCaret;
+        this.targetSelectStart = targetSelectStart;
+        this.targetSelectEnd = targetSelectEnd;
+        this.targetSelectCaret = targetSelectCaret;
+        this.patternFlags = patternFlags;
+        this.targetStart = targetStart;
+        this.targetEnd = targetEnd;
+        this.matchIndex = matchIndex;
+        this.highlightSelection = highlightSelection;
+        this.highlightGroup = highlightGroup;
+        this.highlightGroupNumber = highlightGroupNumber;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (highlightGroup ? 1231 : 1237);
-        result = prime * result + highlightGroupNumber;
-        result = prime * result + (highlightSelection ? 1231 : 1237);
-        result = prime * result + matchIndex;
-        result = prime * result + patternFlags;
-        result = prime * result + ((regex == null) ? 0 : regex.hashCode());
-        result = prime * result + regexSelectCaret;
-        result = prime * result + regexSelectEnd;
-        result = prime * result + regexSelectStart;
-        result = prime * result + ((selectionRegex == null) ? 0 : selectionRegex.hashCode());
-        result = prime * result + ((target == null) ? 0 : target.hashCode());
-        result = prime * result + targetEnd;
-        result = prime * result + targetStart;
-        return result;
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.regex);
+        hash = 89 * hash + Objects.hashCode(this.selectionRegex);
+        hash = 89 * hash + Objects.hashCode(this.target);
+        hash = 89 * hash + this.regexSelectStart;
+        hash = 89 * hash + this.regexSelectEnd;
+        hash = 89 * hash + this.regexSelectCaret;
+        hash = 89 * hash + this.patternFlags;
+        hash = 89 * hash + this.targetStart;
+        hash = 89 * hash + this.targetEnd;
+        hash = 89 * hash + this.matchIndex;
+        hash = 89 * hash + (this.highlightSelection ? 1 : 0);
+        hash = 89 * hash + (this.highlightGroup ? 1 : 0);
+        hash = 89 * hash + this.highlightGroupNumber;
+        return hash;
     }
 
     @Override
@@ -124,58 +142,166 @@ public class HighlighterUiState {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        HighlighterUiState other = (HighlighterUiState) obj;
-        if (highlightGroup != other.highlightGroup) {
+        final HighlighterUiState other = (HighlighterUiState) obj;
+        if (!Objects.equals(this.regex, other.regex)) {
             return false;
         }
-        if (highlightGroupNumber != other.highlightGroupNumber) {
+        if (!Objects.equals(this.selectionRegex, other.selectionRegex)) {
             return false;
         }
-        if (highlightSelection != other.highlightSelection) {
+        if (!Objects.equals(this.target, other.target)) {
             return false;
         }
-        if (matchIndex != other.matchIndex) {
+        if (this.regexSelectStart != other.regexSelectStart) {
             return false;
         }
-        if (patternFlags != other.patternFlags) {
+        if (this.regexSelectEnd != other.regexSelectEnd) {
             return false;
         }
-        if (regex == null) {
-            if (other.regex != null) {
-                return false;
-            }
-        } else if (!regex.equals(other.regex)) {
+        if (this.regexSelectCaret != other.regexSelectCaret) {
             return false;
         }
-        if (regexSelectCaret != other.regexSelectCaret) {
+        if (this.patternFlags != other.patternFlags) {
             return false;
         }
-        if (regexSelectEnd != other.regexSelectEnd) {
+        if (this.targetStart != other.targetStart) {
             return false;
         }
-        if (regexSelectStart != other.regexSelectStart) {
+        if (this.targetEnd != other.targetEnd) {
             return false;
         }
-        if (selectionRegex == null) {
-            if (other.selectionRegex != null) {
-                return false;
-            }
-        } else if (!selectionRegex.equals(other.selectionRegex)) {
+        if (this.matchIndex != other.matchIndex) {
             return false;
         }
-        if (target == null) {
-            if (other.target != null) {
-                return false;
-            }
-        } else if (!target.equals(other.target)) {
+        if (this.highlightSelection != other.highlightSelection) {
             return false;
         }
-        if (targetEnd != other.targetEnd) {
+        if (this.highlightGroup != other.highlightGroup) {
             return false;
         }
-        if (targetStart != other.targetStart) {
+        if (this.highlightGroupNumber != other.highlightGroupNumber) {
             return false;
         }
         return true;
+    }
+
+    public String getRegex() {
+        return regex;
+    }
+
+    public String getSelectionRegex() {
+        return selectionRegex;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public int getRegexSelectStart() {
+        return regexSelectStart;
+    }
+
+    public int getRegexSelectEnd() {
+        return regexSelectEnd;
+    }
+
+    public int getRegexSelectCaret() {
+        return regexSelectCaret;
+    }
+
+    public int getTargetSelectStart() {
+        return targetSelectStart;
+    }
+
+    public int getTargetSelectEnd() {
+        return targetSelectEnd;
+    }
+
+    public int getTargetSelectCaret() {
+        return targetSelectCaret;
+    }
+
+    public int getPatternFlags() {
+        return patternFlags;
+    }
+
+    public int getTargetStart() {
+        return targetStart;
+    }
+
+    public int getTargetEnd() {
+        return targetEnd;
+    }
+
+    public int getMatchIndex() {
+        return matchIndex;
+    }
+
+    public boolean isHighlightSelection() {
+        return highlightSelection;
+    }
+
+    public boolean isHighlightGroup() {
+        return highlightGroup;
+    }
+
+    public int getHighlightGroupNumber() {
+        return highlightGroupNumber;
+    }
+
+    public int getMatchCount() {
+        return matchCount;
+    }
+
+    public void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
+    }
+
+    public int getGroupCount() {
+        return groupCount;
+    }
+
+    public void setGroupCount(int groupCount) {
+        this.groupCount = groupCount;
+    }
+
+    public int getMatchStart() {
+        return matchStart;
+    }
+
+    public void setMatchStart(int matchStart) {
+        this.matchStart = matchStart;
+    }
+
+    public int getMatchEnd() {
+        return matchEnd;
+    }
+
+    public void setMatchEnd(int matchEnd) {
+        this.matchEnd = matchEnd;
+    }
+
+    public int getHighlightStart() {
+        return highlightStart;
+    }
+
+    public void setHighlightStart(int highlightStart) {
+        this.highlightStart = highlightStart;
+    }
+
+    public int getHighlightEnd() {
+        return highlightEnd;
+    }
+
+    public void setHighlightEnd(int highlightEnd) {
+        this.highlightEnd = highlightEnd;
+    }
+
+    public boolean isSelectionMatched() {
+        return selectionMatched;
+    }
+
+    public void setSelectionMatched(boolean selectionMatched) {
+        this.selectionMatched = selectionMatched;
     }
 }

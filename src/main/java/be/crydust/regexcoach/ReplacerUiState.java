@@ -27,12 +27,12 @@ import javax.swing.text.BadLocationException;
  */
 public class ReplacerUiState {
 
-    final String regex;
-    final String target;
-    final String replacement;
-    final int patternFlags;
+    private final String regex;
+    private final String target;
+    private final String replacement;
+    private final int patternFlags;
 
-    String substitution = "";
+    private String substitution = "";
 
     public ReplacerUiState(Gui swing) {
         // note: get the text from the underlying document,
@@ -82,6 +82,30 @@ public class ReplacerUiState {
             return false;
         }
         return true;
+    }
+
+    public String getRegex() {
+        return regex;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public String getReplacement() {
+        return replacement;
+    }
+
+    public int getPatternFlags() {
+        return patternFlags;
+    }
+
+    public String getSubstitution() {
+        return substitution;
+    }
+
+    public void setSubstitution(String substitution) {
+        this.substitution = substitution;
     }
 
 }

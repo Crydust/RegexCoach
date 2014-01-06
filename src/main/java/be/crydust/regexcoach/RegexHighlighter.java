@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package be.crydust.regexcoach;
 
 import java.awt.Color;
@@ -35,10 +34,10 @@ import javax.swing.text.DefaultHighlighter;
 
 public class RegexHighlighter extends KeyAdapter implements ActionListener, ChangeListener, CaretListener {
 
-    private final DefaultHighlighter.DefaultHighlightPainter orange = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
-    private final DefaultHighlighter.DefaultHighlightPainter yellow = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
-    private final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
-    private final DefaultHighlighter.DefaultHighlightPainter gray = new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY);
+    private static final DefaultHighlighter.DefaultHighlightPainter orange = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
+    private static final DefaultHighlighter.DefaultHighlightPainter yellow = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+    private static final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
+    private static final DefaultHighlighter.DefaultHighlightPainter gray = new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY);
 
     //Deal with concurrent UI updates by tracking if we need to do an update and if we are currently in an update
     private final AtomicBoolean doUpdate = new AtomicBoolean(false);
@@ -98,130 +97,8 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
                 }
                 HighlighterUiState prevUiState = lastUiState;
                 lastUiState = currentState;
-
-                //trim the target string
-                String target = currentState.target.substring(currentState.targetStart, currentState.targetEnd);
-
-                //There is a regex and a target
-                if (currentState.regex.length() > 0) {
-                    //create the pattern & matcher
-                    Pattern pattern = Pattern.compile(currentState.regex, currentState.patternFlags);
-                    Matcher matcher = pattern.matcher(target);
-
-                    //Count the number of matches
-                    while (matcher.find()) {
-                        currentState.matchCount++;
-                    }
-                    matcher.reset();
-
-                    //Find the correct match
-                    for (int match = 0; match < currentState.matchIndex - 1; match++) {
-                        matcher.find();
-                    }
-                    if (matcher.find()) {
-                        //Do matching of the regex selection
-                        Matcher selectionMatcher = null;
-                        if (currentState.selectionRegex != null) {
-                            Pattern selectionPattern = Pattern.compile(currentState.selectionRegex, currentState.patternFlags);
-                            selectionMatcher = selectionPattern.matcher(matcher.group(0));
-                            currentState.selectionMatched = selectionMatcher.find();
-                        }
-
-                        //Record group count
-                        currentState.groupCount = matcher.groupCount();
-
-                        //Record match
-                        currentState.matchStart = currentState.targetStart + matcher.start();
-                        currentState.matchEnd = currentState.targetStart + matcher.end();
-
-                        //Record highlight
-                        if (currentState.highlightSelection && currentState.selectionMatched) {
-                            if (selectionMatcher == null) {
-                                throw new NullPointerException("selectionMatcher is null");
-                            }
-                            currentState.highlightStart = currentState.matchStart + selectionMatcher.start();
-                            currentState.highlightEnd = currentState.matchStart + selectionMatcher.end();
-                        } else if (currentState.highlightGroup) {
-                            currentState.highlightStart = currentState.targetStart + matcher.start(currentState.highlightGroupNumber);
-                            currentState.highlightEnd = currentState.targetStart + matcher.end(currentState.highlightGroupNumber);
-                        }
-                    }
-                }
-
-                //Remove all highlights
-                swing.getRegexPane().getHighlighter().removeAllHighlights();
-                swing.getTargetPane().getHighlighter().removeAllHighlights();
-                swing.getRegexStatus().setText(" ");
-                swing.getTargetStatus().setText(" "); //Add the user's selections back after clearing the highlights
-                if (currentState.regexSelectStart < currentState.regexSelectEnd) {
-                    if (currentState.regexSelectCaret == currentState.regexSelectStart) {
-                        swing.getRegexPane().getCaret().setDot(currentState.regexSelectEnd);
-                        swing.getRegexPane().getCaret().moveDot(currentState.regexSelectStart);
-                    } else {
-                        swing.getRegexPane().select(currentState.regexSelectStart, currentState.regexSelectEnd);
-                    }
-                    swing.getRegexPane().getCaret().setSelectionVisible(true);
-
-                }
-                if (currentState.targetSelectStart < currentState.targetSelectEnd) {
-                    if (currentState.targetSelectCaret == currentState.targetSelectStart) {
-                        swing.getTargetPane().getCaret().setDot(currentState.targetSelectEnd);
-                        swing.getTargetPane().getCaret().moveDot(currentState.targetSelectStart);
-                    } else {
-                        swing.getTargetPane().select(currentState.targetSelectStart, currentState.targetSelectEnd);
-                    }
-                    swing.getTargetPane().getCaret().setSelectionVisible(true);
-                }
-
-                //Update endOfString spinner
-                int targetStartMax = Math.max(currentState.targetEnd, 0);
-                ((SpinnerNumberModel) swing.getEndOfString().getModel()).setMaximum(currentState.target.length());
-                if (prevUiState == null || prevUiState.target.length() <= currentState.targetEnd) {
-                    swing.getEndOfString().setValue(currentState.target.length());
-                    targetStartMax = currentState.target.length();
-                }
-                ((SpinnerNumberModel) swing.getEndOfString().getModel()).setMinimum(currentState.targetStart);
-
-                //Update startOfString spinner
-                ((SpinnerNumberModel) swing.getStartOfString().getModel()).setMaximum(targetStartMax);
-                if (currentState.targetStart > targetStartMax) {
-                    swing.getStartOfString().setValue(targetStartMax);
-                }
-
-                //Count matches & update match spinner
-                ((SpinnerNumberModel) swing.getMatchNumber().getModel()).setMaximum(currentState.matchCount);
-                swing.getMatchCount().setText(Integer.toString(currentState.matchCount));
-                if (currentState.matchCount > 0 && currentState.matchIndex > currentState.matchCount) {
-                    swing.getMatchNumber().setValue(currentState.matchCount);
-                }
-
-                swing.getHighlightSelection().setEnabled(currentState.selectionMatched);
-
-                //Update group count spinner
-                ((SpinnerNumberModel) swing.getHighlightGroupNumber().getModel()).setMaximum(currentState.groupCount);
-                swing.getGroupCount().setText(Integer.toString(currentState.groupCount));
-                if (currentState.highlightGroupNumber > currentState.groupCount) {
-                    swing.getHighlightGroupNumber().setValue(currentState.groupCount);
-                }
-
-                //Highlight the areas that are being ignored
-                swing.getTargetPane().getHighlighter().addHighlight(0, currentState.targetStart, gray);
-                swing.getTargetPane().getHighlighter().addHighlight(currentState.targetEnd, currentState.target.length(), gray);
-
-                if (currentState.highlightStart != currentState.highlightEnd) {
-                    swing.getTargetPane().getHighlighter().addHighlight(currentState.highlightStart, currentState.highlightEnd, orange);
-                }
-
-                if (currentState.matchCount > 0) {
-                    swing.getTargetPane().getHighlighter().addHighlight(currentState.matchStart, currentState.matchEnd, yellow);
-                    swing.getTargetStatus().setText(String.format(
-                            "Match #%d from %d to %d.",
-                            currentState.matchIndex,
-                            currentState.matchStart,
-                            currentState.matchEnd));
-                } else {
-                    swing.getTargetStatus().setText("No match.");
-                }
+                updateState(currentState);
+                updateGui(swing, currentState, prevUiState);
             }
         } catch (PatternSyntaxException e) {
             try {
@@ -235,6 +112,146 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
         } finally {
             //Make sure we note that we're done updating
             inHighlights.set(false);
+        }
+    }
+
+    /**
+     * Reads from and writes to a UiState.
+     * Is not private for easier testing, don't use this method outside of this class.
+     *
+     * @param currentState will be altered
+     * @throws NullPointerException
+     */
+    static void updateState(HighlighterUiState currentState) throws NullPointerException {
+        //trim the target string
+        String target = currentState.getTarget().substring(currentState.getTargetStart(), currentState.getTargetEnd());
+
+        //There is a regex and a target
+        if (currentState.getRegex().length() > 0) {
+            //create the pattern & matcher
+            Pattern pattern = Pattern.compile(currentState.getRegex(), currentState.getPatternFlags());
+            Matcher matcher = pattern.matcher(target);
+
+            //Count the number of matches
+            while (matcher.find()) {
+                currentState.setMatchCount(currentState.getMatchCount() + 1);
+            }
+            matcher.reset();
+
+            //Find the correct match
+            for (int match = 0; match < currentState.getMatchIndex() - 1; match++) {
+                matcher.find();
+            }
+            if (matcher.find()) {
+                //Do matching of the regex selection
+                Matcher selectionMatcher = null;
+                if (currentState.getSelectionRegex() != null) {
+                    Pattern selectionPattern = Pattern.compile(currentState.getSelectionRegex(), currentState.getPatternFlags());
+                    selectionMatcher = selectionPattern.matcher(matcher.group(0));
+                    currentState.setSelectionMatched(selectionMatcher.find());
+                }
+
+                //Record group count
+                currentState.setGroupCount(matcher.groupCount());
+
+                //Record match
+                currentState.setMatchStart(currentState.getTargetStart() + matcher.start());
+                currentState.setMatchEnd(currentState.getTargetStart() + matcher.end());
+
+                //Record highlight
+                if (currentState.isHighlightSelection() && currentState.isSelectionMatched()) {
+                    if (selectionMatcher == null) {
+                        throw new NullPointerException("selectionMatcher is null");
+                    }
+                    currentState.setHighlightStart(currentState.getMatchStart() + selectionMatcher.start());
+                    currentState.setHighlightEnd(currentState.getMatchStart() + selectionMatcher.end());
+                } else if (currentState.isHighlightGroup()) {
+                    currentState.setHighlightStart(currentState.getTargetStart() + matcher.start(currentState.getHighlightGroupNumber()));
+                    currentState.setHighlightEnd(currentState.getTargetStart() + matcher.end(currentState.getHighlightGroupNumber()));
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads UiState and writes to gui.
+     *
+     * @param swing
+     * @param currentState
+     * @param prevUiState
+     * @throws BadLocationException
+     */
+    private static void updateGui(Gui swing, HighlighterUiState currentState, HighlighterUiState prevUiState) throws BadLocationException {
+        //Remove all highlights
+        swing.getRegexPane().getHighlighter().removeAllHighlights();
+        swing.getTargetPane().getHighlighter().removeAllHighlights();
+        swing.getRegexStatus().setText(" ");
+        swing.getTargetStatus().setText(" "); //Add the user's selections back after clearing the highlights
+        if (currentState.getRegexSelectStart() < currentState.getRegexSelectEnd()) {
+            if (currentState.getRegexSelectCaret() == currentState.getRegexSelectStart()) {
+                swing.getRegexPane().getCaret().setDot(currentState.getRegexSelectEnd());
+                swing.getRegexPane().getCaret().moveDot(currentState.getRegexSelectStart());
+            } else {
+                swing.getRegexPane().select(currentState.getRegexSelectStart(), currentState.getRegexSelectEnd());
+            }
+            swing.getRegexPane().getCaret().setSelectionVisible(true);
+
+        }
+        if (currentState.getTargetSelectStart() < currentState.getTargetSelectEnd()) {
+            if (currentState.getTargetSelectCaret() == currentState.getTargetSelectStart()) {
+                swing.getTargetPane().getCaret().setDot(currentState.getTargetSelectEnd());
+                swing.getTargetPane().getCaret().moveDot(currentState.getTargetSelectStart());
+            } else {
+                swing.getTargetPane().select(currentState.getTargetSelectStart(), currentState.getTargetSelectEnd());
+            }
+            swing.getTargetPane().getCaret().setSelectionVisible(true);
+        }
+
+        //Update endOfString spinner
+        int targetStartMax = Math.max(currentState.getTargetEnd(), 0);
+        ((SpinnerNumberModel) swing.getEndOfString().getModel()).setMaximum(currentState.getTarget().length());
+        if (prevUiState == null || prevUiState.getTarget().length() <= currentState.getTargetEnd()) {
+            swing.getEndOfString().setValue(currentState.getTarget().length());
+            targetStartMax = currentState.getTarget().length();
+        }
+        ((SpinnerNumberModel) swing.getEndOfString().getModel()).setMinimum(currentState.getTargetStart());
+
+        //Update startOfString spinner
+        ((SpinnerNumberModel) swing.getStartOfString().getModel()).setMaximum(targetStartMax);
+        if (currentState.getTargetStart() > targetStartMax) {
+            swing.getStartOfString().setValue(targetStartMax);
+        }
+
+        //Count matches & update match spinner
+        ((SpinnerNumberModel) swing.getMatchNumber().getModel()).setMaximum(currentState.getMatchCount());
+        swing.getMatchCount().setText(Integer.toString(currentState.getMatchCount()));
+        if (currentState.getMatchCount() > 0 && currentState.getMatchIndex() > currentState.getMatchCount()) {
+            swing.getMatchNumber().setValue(currentState.getMatchCount());
+        }
+
+        swing.getHighlightSelection().setEnabled(currentState.isSelectionMatched());
+
+        //Update group count spinner
+        ((SpinnerNumberModel) swing.getHighlightGroupNumber().getModel()).setMaximum(currentState.getGroupCount());
+        swing.getGroupCount().setText(Integer.toString(currentState.getGroupCount()));
+        if (currentState.getHighlightGroupNumber() > currentState.getGroupCount()) {
+            swing.getHighlightGroupNumber().setValue(currentState.getGroupCount());
+        }
+
+        //Highlight the areas that are being ignored
+        swing.getTargetPane().getHighlighter().addHighlight(0, currentState.getTargetStart(), gray);
+        swing.getTargetPane().getHighlighter().addHighlight(currentState.getTargetEnd(), currentState.getTarget().length(), gray);
+
+        if (currentState.getHighlightStart() != currentState.getHighlightEnd()) {
+            swing.getTargetPane().getHighlighter().addHighlight(currentState.getHighlightStart(), currentState.getHighlightEnd(), orange);
+        }
+
+        if (currentState.getMatchCount() > 0) {
+            swing.getTargetPane().getHighlighter().addHighlight(currentState.getMatchStart(), currentState.getMatchEnd(), yellow);
+            swing.getTargetStatus().setText(String.format(
+                    "Match #%d from %d to %d.", currentState.getMatchIndex(), currentState.getMatchStart(), currentState.getMatchEnd()));
+        } else {
+            swing.getTargetStatus().setText("No match.");
         }
     }
 }
