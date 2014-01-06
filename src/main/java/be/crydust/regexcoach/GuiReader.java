@@ -59,6 +59,9 @@ public final class GuiReader {
         if (swing.getRegexOptUnixLines().isSelected()) {
             patternFlagsBuilder |= Pattern.UNIX_LINES;
         }
+        if (swing.getRegexOptUnicodeCharacterClass().isSelected()) {
+            patternFlagsBuilder |= Pattern.UNICODE_CHARACTER_CLASS;
+        }
         return patternFlagsBuilder;
     }
 

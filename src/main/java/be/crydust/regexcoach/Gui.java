@@ -40,6 +40,7 @@ public class Gui extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         highlightButtonGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
@@ -49,15 +50,8 @@ public class Gui extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         regexPane = new javax.swing.JTextPane();
+        jPanel2 = new javax.swing.JPanel();
         regexStatus = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        targetPane = new javax.swing.JTextPane();
-        targetStatus = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        controlPanelWrapper = new javax.swing.JPanel();
-        controlPanel = new javax.swing.JPanel();
         regexOptCaseInsensitive = new javax.swing.JCheckBox();
         regexOptMultiline = new javax.swing.JCheckBox();
         regexOptDotAll = new javax.swing.JCheckBox();
@@ -66,6 +60,15 @@ public class Gui extends javax.swing.JFrame {
         regexOptLiteral = new javax.swing.JCheckBox();
         regexOptUnicodeCase = new javax.swing.JCheckBox();
         regexOptUnixLines = new javax.swing.JCheckBox();
+        regexOptUnicodeCharacterClass = new javax.swing.JCheckBox();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        targetPane = new javax.swing.JTextPane();
+        targetStatus = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        controlPanelWrapper = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         highlightSelection = new javax.swing.JRadioButton();
         highlightNone = new javax.swing.JRadioButton();
@@ -96,7 +99,6 @@ public class Gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("The Java Regex Coach");
         setMinimumSize(new java.awt.Dimension(600, 600));
-        setPreferredSize(new java.awt.Dimension(600, 600));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -115,8 +117,56 @@ public class Gui extends javax.swing.JFrame {
 
         jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
         regexStatus.setText(" ");
-        jPanel3.add(regexStatus, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(regexStatus, gridBagConstraints);
+
+        regexOptCaseInsensitive.setText("i");
+        regexOptCaseInsensitive.setToolTipText("Case Insensitive");
+        regexOptCaseInsensitive.setActionCommand("");
+        jPanel2.add(regexOptCaseInsensitive, new java.awt.GridBagConstraints());
+
+        regexOptMultiline.setText("m");
+        regexOptMultiline.setToolTipText("Multline");
+        regexOptMultiline.setActionCommand("");
+        regexOptMultiline.setName(""); // NOI18N
+        jPanel2.add(regexOptMultiline, new java.awt.GridBagConstraints());
+
+        regexOptDotAll.setText("s");
+        regexOptDotAll.setToolTipText("Dot All");
+        regexOptDotAll.setActionCommand("");
+        regexOptDotAll.setName(""); // NOI18N
+        jPanel2.add(regexOptDotAll, new java.awt.GridBagConstraints());
+
+        regexOptComments.setText("x");
+        regexOptComments.setToolTipText("Comments");
+        jPanel2.add(regexOptComments, new java.awt.GridBagConstraints());
+
+        regexOptCanonEq.setText("ce");
+        regexOptCanonEq.setToolTipText("Canonical Eq");
+        jPanel2.add(regexOptCanonEq, new java.awt.GridBagConstraints());
+
+        regexOptLiteral.setText("lit");
+        regexOptLiteral.setToolTipText("Literal");
+        jPanel2.add(regexOptLiteral, new java.awt.GridBagConstraints());
+
+        regexOptUnicodeCase.setText("u");
+        regexOptUnicodeCase.setToolTipText("Unicode-Aware Case");
+        jPanel2.add(regexOptUnicodeCase, new java.awt.GridBagConstraints());
+
+        regexOptUnixLines.setText("d");
+        regexOptUnixLines.setToolTipText("Unix Lines");
+        jPanel2.add(regexOptUnixLines, new java.awt.GridBagConstraints());
+
+        regexOptUnicodeCharacterClass.setText("U");
+        regexOptUnicodeCharacterClass.setToolTipText("Unicode character classes");
+        jPanel2.add(regexOptUnicodeCharacterClass, new java.awt.GridBagConstraints());
+
+        jPanel3.add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         jSplitPane2.setTopComponent(jPanel3);
 
@@ -138,36 +188,7 @@ public class Gui extends javax.swing.JFrame {
 
         controlPanelWrapper.setLayout(new java.awt.BorderLayout());
 
-        controlPanel.setLayout(new java.awt.GridLayout(4, 4));
-
-        regexOptCaseInsensitive.setText("Case Insensitive");
-        regexOptCaseInsensitive.setActionCommand("");
-        controlPanel.add(regexOptCaseInsensitive);
-
-        regexOptMultiline.setText("Multline");
-        regexOptMultiline.setActionCommand("");
-        regexOptMultiline.setName(""); // NOI18N
-        controlPanel.add(regexOptMultiline);
-
-        regexOptDotAll.setText("Dot All");
-        regexOptDotAll.setActionCommand("");
-        regexOptDotAll.setName(""); // NOI18N
-        controlPanel.add(regexOptDotAll);
-
-        regexOptComments.setText("Comments");
-        controlPanel.add(regexOptComments);
-
-        regexOptCanonEq.setText("Canonical Eq");
-        controlPanel.add(regexOptCanonEq);
-
-        regexOptLiteral.setText("Literal");
-        controlPanel.add(regexOptLiteral);
-
-        regexOptUnicodeCase.setText("Unicode-Aware Case");
-        controlPanel.add(regexOptUnicodeCase);
-
-        regexOptUnixLines.setText("Unix Lines");
-        controlPanel.add(regexOptUnixLines);
+        controlPanel.setLayout(new java.awt.GridLayout(2, 4));
 
         jLabel3.setText("Highllight:");
         controlPanel.add(jLabel3);
@@ -359,6 +380,10 @@ public class Gui extends javax.swing.JFrame {
         return regexOptUnixLines;
     }
 
+    public JCheckBox getRegexOptUnicodeCharacterClass() {
+        return regexOptUnicodeCharacterClass;
+    }
+
     public JTextPane getRegexPane() {
         return regexPane;
     }
@@ -410,6 +435,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
@@ -430,6 +456,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox regexOptLiteral;
     private javax.swing.JCheckBox regexOptMultiline;
     private javax.swing.JCheckBox regexOptUnicodeCase;
+    private javax.swing.JCheckBox regexOptUnicodeCharacterClass;
     private javax.swing.JCheckBox regexOptUnixLines;
     private javax.swing.JTextPane regexPane;
     private javax.swing.JLabel regexStatus;
