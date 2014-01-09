@@ -29,7 +29,7 @@ import javax.swing.text.DefaultHighlighter;
 
 public class RegexReplacer extends KeyAdapter implements ActionListener {
 
-    private final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
+    private static final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
 
     //Deal with concurrent UI updates by tracking if we need to do an update and if we are currently in an update
     private final AtomicBoolean doUpdate = new AtomicBoolean(false);
@@ -79,41 +79,68 @@ public class RegexReplacer extends KeyAdapter implements ActionListener {
                 }
                 lastUiState = currentState;
 
-                //There is a regex and a target
-                try {
-                    swing.getReplacementPane().getHighlighter().removeAllHighlights();
-                    if (currentState.getRegex().length() > 0) {
-                        //create the pattern & matcher
-                        Pattern pattern = Pattern.compile(currentState.getRegex(), currentState.getPatternFlags());
-                        Matcher matcher = pattern.matcher(currentState.getTarget());
+                updateState(currentState);
+                updateGui(swing, currentState);
 
-                        StringBuffer stringBuffer = new StringBuffer();
-                        while (matcher.find()) {
-                            matcher.appendReplacement(stringBuffer, currentState.getReplacement());
-                        }
-                        matcher.appendTail(stringBuffer);
-                        currentState.setSubstitution(stringBuffer.toString());
-                    }
-                } catch (StringIndexOutOfBoundsException e) {
-                    currentState.setSubstitution("#ERROR StringIndexOutOfBoundsException " + e.getMessage());
-                    try {
-                        swing.getReplacementPane().getHighlighter().addHighlight(currentState.getReplacement().length() - 1, currentState.getReplacement().length(), red);
-                    } catch (BadLocationException ex) {
-                        throw new UnrecoverableException(ex);
-                    }
-                } catch (PatternSyntaxException e) {
-                    currentState.setSubstitution("#ERROR PatternSyntaxException " + e.getMessage());
-                } catch (IllegalArgumentException e) {
-                    currentState.setSubstitution("#ERROR IllegalArgumentException " + e.getMessage());
-                } catch (IndexOutOfBoundsException e) {
-                    currentState.setSubstitution("#ERROR IndexOutOfBoundsException " + e.getMessage());
-                }
-
-                swing.getSubstitutionArea().setText(currentState.getSubstitution());
             }
+        } catch (BadLocationException ex) {
+            throw new UnrecoverableException(ex);
         } finally {
             //Make sure we note that we're done updating
             inReplace.set(false);
         }
+    }
+
+    /**
+     * Reads from and writes to a UiState. Is not private for easier testing,
+     * don't use this method outside of this class.
+     *
+     * @param currentState will be altered
+     * @throws NullPointerException
+     */
+    static void updateState(ReplacerUiState currentState) throws NullPointerException {
+        //There is a regex and a target
+        try {
+            if (currentState.getRegex().length() > 0) {
+                //create the pattern & matcher
+                Pattern pattern = Pattern.compile(currentState.getRegex(), currentState.getPatternFlags());
+                Matcher matcher = pattern.matcher(currentState.getTarget());
+
+                StringBuffer stringBuffer = new StringBuffer();
+                while (matcher.find()) {
+                    matcher.appendReplacement(stringBuffer, currentState.getReplacement());
+                }
+                matcher.appendTail(stringBuffer);
+                currentState.setSubstitution(stringBuffer.toString());
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+//                    currentState.setSubstitution("#ERROR StringIndexOutOfBoundsException " + e.getMessage());
+            currentState.setSubstitution("");
+            currentState.setStatus(e.getMessage());
+            currentState.setHighlightLastCharacter(true);
+        } catch (PatternSyntaxException e) {
+            currentState.setSubstitution("");
+            currentState.setStatus(e.getDescription());
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            currentState.setSubstitution("");
+            currentState.setStatus(e.getMessage());
+        }
+    }
+
+    /**
+     * Reads UiState and writes to gui.
+     *
+     * @param swing
+     * @param currentState
+     * @param prevUiState
+     * @throws BadLocationException
+     */
+    private static void updateGui(Gui swing, ReplacerUiState currentState) throws BadLocationException {
+        swing.getReplacementPane().getHighlighter().removeAllHighlights();
+        if (currentState.isHighlightLastCharacter()) {
+            swing.getReplacementPane().getHighlighter().addHighlight(currentState.getReplacement().length() - 1, currentState.getReplacement().length(), red);
+        }
+        swing.getSubstitutionArea().setText(currentState.getSubstitution());
+        swing.getReplacementStatus().setText(currentState.getStatus());
     }
 }

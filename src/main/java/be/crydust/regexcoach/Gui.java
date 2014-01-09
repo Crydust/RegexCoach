@@ -91,8 +91,13 @@ public class Gui extends javax.swing.JFrame {
         endOfString = new javax.swing.JSpinner();
         replacePanel = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         replacementPane = new javax.swing.JTextPane();
+        replacementStatus = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         substitutionArea = new javax.swing.JTextArea();
 
@@ -258,16 +263,33 @@ public class Gui extends javax.swing.JFrame {
         jSplitPane3.setDividerLocation(100);
         jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jLabel9.setText("Replacement string:");
+        jPanel5.add(jLabel9, java.awt.BorderLayout.NORTH);
+
         jScrollPane2.setViewportView(replacementPane);
 
-        jSplitPane3.setLeftComponent(jScrollPane2);
+        jPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        replacementStatus.setText(" ");
+        jPanel5.add(replacementStatus, java.awt.BorderLayout.SOUTH);
+
+        jSplitPane3.setLeftComponent(jPanel5);
+
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
+        jLabel11.setText("Replacement result:");
+        jPanel6.add(jLabel11, java.awt.BorderLayout.NORTH);
 
         substitutionArea.setColumns(20);
         substitutionArea.setRows(5);
         substitutionArea.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jScrollPane4.setViewportView(substitutionArea);
 
-        jSplitPane3.setRightComponent(jScrollPane4);
+        jPanel6.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        jSplitPane3.setRightComponent(jPanel6);
 
         replacePanel.add(jSplitPane3, java.awt.BorderLayout.CENTER);
 
@@ -412,6 +434,10 @@ public class Gui extends javax.swing.JFrame {
         return substitutionArea;
     }
 
+    public JLabel getReplacementStatus() {
+        return replacementStatus;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel controlPanelWrapper;
@@ -424,6 +450,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JRadioButton highlightNone;
     private javax.swing.JRadioButton highlightSelection;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -431,6 +458,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -438,6 +466,8 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -462,6 +492,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel regexStatus;
     private javax.swing.JPanel replacePanel;
     private javax.swing.JTextPane replacementPane;
+    private javax.swing.JLabel replacementStatus;
     private javax.swing.JSpinner startOfString;
     private javax.swing.JTextArea substitutionArea;
     private javax.swing.JTextPane targetPane;

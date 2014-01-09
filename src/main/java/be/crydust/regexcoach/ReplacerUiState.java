@@ -33,6 +33,8 @@ public class ReplacerUiState {
     private final int patternFlags;
 
     private String substitution = "";
+    private String status = " ";
+    private boolean highlightLastCharacter = false;
 
     public ReplacerUiState(Gui swing) {
         // note: get the text from the underlying document,
@@ -106,6 +108,22 @@ public class ReplacerUiState {
 
     public void setSubstitution(String substitution) {
         this.substitution = substitution;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isHighlightLastCharacter() {
+        return highlightLastCharacter;
+    }
+
+    public void setHighlightLastCharacter(boolean highlightLastCharacter) {
+        this.highlightLastCharacter = highlightLastCharacter;
     }
 
 }
