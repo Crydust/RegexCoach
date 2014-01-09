@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.crydust</groupId>
-    <artifactId>RegexCoach</artifactId>
+    <artifactId>regexcoach</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -21,8 +21,8 @@
         <url>https://github.com/Crydust/RegexCoach</url>
         <connection>scm:git:git://github.com/Crydust/RegexCoach.git</connection>
         <developerConnection>scm:git:git@github.com:Crydust/RegexCoach.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     
     <licenses>
         <license>
@@ -33,15 +33,29 @@
     </licenses>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/webapp</directory>
+                <includes>
+                    <include>**/*.html</include>
+                </includes>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/webapp</directory>
+                <excludes>
+                    <exclude>**/*.html</exclude>
+                </excludes>
+                <filtering>false</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -80,12 +94,12 @@
                 <version>2.4</version>
                 <configuration>
                     <archive>
-                        <manifest>  
+                        <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>be.crydust.regexcoach.App</mainClass>
+                            <!--<Permissions>sandbox</Permissions>-->
                         </manifest>
-                        
                     </archive>
                 </configuration>
             </plugin>
@@ -156,5 +170,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 </project>
