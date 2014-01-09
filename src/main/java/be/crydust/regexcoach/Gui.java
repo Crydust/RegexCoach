@@ -43,6 +43,7 @@ public class Gui extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         highlightButtonGroup = new javax.swing.ButtonGroup();
+        dividerButtonGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
@@ -100,6 +101,23 @@ public class Gui extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         substitutionArea = new javax.swing.JTextArea();
+        splitPanel = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        jLabel13 = new javax.swing.JLabel();
+        splitLimitTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("The Java Regex Coach");
@@ -295,6 +313,95 @@ public class Gui extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Replace", replacePanel);
 
+        splitPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel10.setText("Split string:");
+        splitPanel.add(jLabel10, java.awt.BorderLayout.NORTH);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("NIY");
+        jTextArea1.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        jScrollPane5.setViewportView(jTextArea1);
+
+        splitPanel.add(jScrollPane5, java.awt.BorderLayout.CENTER);
+
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        jLabel12.setText("Divider:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jLabel12, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("|");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton1, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton2);
+        jRadioButton2.setText("¦");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton2, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton3);
+        jRadioButton3.setText("¬");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton3, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton4);
+        jRadioButton4.setText("¶");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton4, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton5);
+        jRadioButton5.setText("®");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton5, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton6);
+        jRadioButton6.setText("©");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton6, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton7);
+        jRadioButton7.setText("¥");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton7, gridBagConstraints);
+
+        dividerButtonGroup.add(jRadioButton8);
+        jRadioButton8.setText("block");
+        jRadioButton8.setToolTipText("(=u2588)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel8.add(jRadioButton8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.weightx = 1.0;
+        jPanel8.add(filler1, gridBagConstraints);
+
+        jLabel13.setText("Limit:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel8.add(jLabel13, gridBagConstraints);
+
+        splitLimitTextField.setMinimumSize(new java.awt.Dimension(30, 19));
+        splitLimitTextField.setPreferredSize(new java.awt.Dimension(30, 19));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel8.add(splitLimitTextField, gridBagConstraints);
+
+        splitPanel.add(jPanel8, java.awt.BorderLayout.SOUTH);
+
+        jTabbedPane1.addTab("Split", splitPanel);
+
         jSplitPane1.setRightComponent(jTabbedPane1);
 
         jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
@@ -441,7 +548,9 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel controlPanelWrapper;
+    private javax.swing.ButtonGroup dividerButtonGroup;
     private javax.swing.JSpinner endOfString;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel groupCount;
     private javax.swing.ButtonGroup highlightButtonGroup;
@@ -450,7 +559,10 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JRadioButton highlightNone;
     private javax.swing.JRadioButton highlightSelection;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -469,14 +581,25 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel matchCount;
     private javax.swing.JSpinner matchNumber;
     private javax.swing.JCheckBox regexOptCanonEq;
@@ -493,6 +616,8 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel replacePanel;
     private javax.swing.JTextPane replacementPane;
     private javax.swing.JLabel replacementStatus;
+    private javax.swing.JTextField splitLimitTextField;
+    private javax.swing.JPanel splitPanel;
     private javax.swing.JSpinner startOfString;
     private javax.swing.JTextArea substitutionArea;
     private javax.swing.JTextPane targetPane;
