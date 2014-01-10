@@ -27,7 +27,7 @@ import java.util.regex.PatternSyntaxException;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 
-public class RegexReplacer extends KeyAdapter implements ActionListener {
+public class RegexReplacer implements EventBouncer.Handler {
 
     private static final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
 
@@ -38,12 +38,7 @@ public class RegexReplacer extends KeyAdapter implements ActionListener {
     private final Gui swing;
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        doReplace();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent event) {
+    public void handleEvent() {
         doReplace();
     }
 
@@ -143,4 +138,5 @@ public class RegexReplacer extends KeyAdapter implements ActionListener {
         swing.getSubstitutionArea().setText(currentState.getSubstitution());
         swing.getReplacementStatus().setText(currentState.getStatus());
     }
+
 }

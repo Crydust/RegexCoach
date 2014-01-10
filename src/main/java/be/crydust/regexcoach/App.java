@@ -26,49 +26,53 @@ public class App implements Runnable {
     @Override
     public void run() {
         Gui swing = new Gui();
+        
         RegexHighlighter highlighter = new RegexHighlighter(swing);
         RegexReplacer replacer = new RegexReplacer(swing);
 
+        EventBouncer highlighterEventBouncer = new EventBouncer(highlighter);
+        EventBouncer replacerEventBouncer = new EventBouncer(replacer);
+        
         // Text area mod listeners
-        swing.getRegexPane().addKeyListener(highlighter);
-        swing.getRegexPane().addCaretListener(highlighter);
-        swing.getTargetPane().addKeyListener(highlighter);
+        swing.getRegexPane().addKeyListener(highlighterEventBouncer);
+        swing.getRegexPane().addCaretListener(highlighterEventBouncer);
+        swing.getTargetPane().addKeyListener(highlighterEventBouncer);
 
         // Regex Options listeners
-        swing.getRegexOptCaseInsensitive().addActionListener(highlighter);
-        swing.getRegexOptMultiline().addActionListener(highlighter);
-        swing.getRegexOptDotAll().addActionListener(highlighter);
-        swing.getRegexOptComments().addActionListener(highlighter);
-        swing.getRegexOptCanonEq().addActionListener(highlighter);
-        swing.getRegexOptLiteral().addActionListener(highlighter);
-        swing.getRegexOptUnicodeCase().addActionListener(highlighter);
-        swing.getRegexOptUnixLines().addActionListener(highlighter);
+        swing.getRegexOptCaseInsensitive().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptMultiline().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptDotAll().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptComments().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptCanonEq().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptLiteral().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptUnicodeCase().addActionListener(highlighterEventBouncer);
+        swing.getRegexOptUnixLines().addActionListener(highlighterEventBouncer);
 
         // Match change listeners
-        swing.getMatchNumber().addChangeListener(highlighter);
-        swing.getStartOfString().addChangeListener(highlighter);
-        swing.getEndOfString().addChangeListener(highlighter);
+        swing.getMatchNumber().addChangeListener(highlighterEventBouncer);
+        swing.getStartOfString().addChangeListener(highlighterEventBouncer);
+        swing.getEndOfString().addChangeListener(highlighterEventBouncer);
 
         // Selection listeners
-        swing.getHighlightSelection().addActionListener(highlighter);
-        swing.getHighlightNone().addActionListener(highlighter);
-        swing.getHighlightGroup().addActionListener(highlighter);
-        swing.getHighlightGroupNumber().addChangeListener(highlighter);
+        swing.getHighlightSelection().addActionListener(highlighterEventBouncer);
+        swing.getHighlightNone().addActionListener(highlighterEventBouncer);
+        swing.getHighlightGroup().addActionListener(highlighterEventBouncer);
+        swing.getHighlightGroupNumber().addChangeListener(highlighterEventBouncer);
 
         // Text area mod listeners
-        swing.getRegexPane().addKeyListener(replacer);
-        swing.getTargetPane().addKeyListener(replacer);
-        swing.getReplacementPane().addKeyListener(replacer);
+        swing.getRegexPane().addKeyListener(replacerEventBouncer);
+        swing.getTargetPane().addKeyListener(replacerEventBouncer);
+        swing.getReplacementPane().addKeyListener(replacerEventBouncer);
 
         // Regex Options listeners
-        swing.getRegexOptCaseInsensitive().addActionListener(replacer);
-        swing.getRegexOptMultiline().addActionListener(replacer);
-        swing.getRegexOptDotAll().addActionListener(replacer);
-        swing.getRegexOptComments().addActionListener(replacer);
-        swing.getRegexOptCanonEq().addActionListener(replacer);
-        swing.getRegexOptLiteral().addActionListener(replacer);
-        swing.getRegexOptUnicodeCase().addActionListener(replacer);
-        swing.getRegexOptUnixLines().addActionListener(replacer);
+        swing.getRegexOptCaseInsensitive().addActionListener(replacerEventBouncer);
+        swing.getRegexOptMultiline().addActionListener(replacerEventBouncer);
+        swing.getRegexOptDotAll().addActionListener(replacerEventBouncer);
+        swing.getRegexOptComments().addActionListener(replacerEventBouncer);
+        swing.getRegexOptCanonEq().addActionListener(replacerEventBouncer);
+        swing.getRegexOptLiteral().addActionListener(replacerEventBouncer);
+        swing.getRegexOptUnicodeCase().addActionListener(replacerEventBouncer);
+        swing.getRegexOptUnixLines().addActionListener(replacerEventBouncer);
 
         swing.pack();
         swing.setLocationRelativeTo(null);

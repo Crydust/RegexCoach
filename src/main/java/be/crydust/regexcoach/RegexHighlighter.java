@@ -16,23 +16,15 @@
 package be.crydust.regexcoach;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 
-public class RegexHighlighter extends KeyAdapter implements ActionListener, ChangeListener, CaretListener {
+public class RegexHighlighter implements EventBouncer.Handler {
 
     private static final DefaultHighlighter.DefaultHighlightPainter orange = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
     private static final DefaultHighlighter.DefaultHighlightPainter yellow = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
@@ -46,22 +38,7 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
     private final Gui swing;
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        doHighlights();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent event) {
-        doHighlights();
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        doHighlights();
-    }
-
-    @Override
-    public void caretUpdate(CaretEvent e) {
+    public void handleEvent() {
         doHighlights();
     }
 
@@ -254,4 +231,5 @@ public class RegexHighlighter extends KeyAdapter implements ActionListener, Chan
             swing.getTargetStatus().setText("No match.");
         }
     }
+
 }
