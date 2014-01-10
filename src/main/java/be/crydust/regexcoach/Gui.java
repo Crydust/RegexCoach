@@ -32,6 +32,56 @@ public class Gui extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void initBehaviour() {
+        RegexHighlighter highlighter = new RegexHighlighter(this);
+        RegexReplacer replacer = new RegexReplacer(this);
+
+        // Text area mod listeners
+        this.getRegexPane().addKeyListener(highlighter);
+        this.getRegexPane().addCaretListener(highlighter);
+        this.getTargetPane().addKeyListener(highlighter);
+
+        // Regex Options listeners
+        this.getRegexOptCaseInsensitive().addActionListener(highlighter);
+        this.getRegexOptMultiline().addActionListener(highlighter);
+        this.getRegexOptDotAll().addActionListener(highlighter);
+        this.getRegexOptComments().addActionListener(highlighter);
+        this.getRegexOptCanonEq().addActionListener(highlighter);
+        this.getRegexOptLiteral().addActionListener(highlighter);
+        this.getRegexOptUnicodeCase().addActionListener(highlighter);
+        this.getRegexOptUnixLines().addActionListener(highlighter);
+
+        // Match change listeners
+        this.getMatchNumber().addChangeListener(highlighter);
+        this.getStartOfString().addChangeListener(highlighter);
+        this.getEndOfString().addChangeListener(highlighter);
+
+        // Selection listeners
+        this.getHighlightSelection().addActionListener(highlighter);
+        this.getHighlightNone().addActionListener(highlighter);
+        this.getHighlightGroup().addActionListener(highlighter);
+        this.getHighlightGroupNumber().addChangeListener(highlighter);
+
+        // Text area mod listeners
+        this.getRegexPane().addKeyListener(replacer);
+        this.getTargetPane().addKeyListener(replacer);
+        this.getReplacementPane().addKeyListener(replacer);
+
+        // Regex Options listeners
+        this.getRegexOptCaseInsensitive().addActionListener(replacer);
+        this.getRegexOptMultiline().addActionListener(replacer);
+        this.getRegexOptDotAll().addActionListener(replacer);
+        this.getRegexOptComments().addActionListener(replacer);
+        this.getRegexOptCanonEq().addActionListener(replacer);
+        this.getRegexOptLiteral().addActionListener(replacer);
+        this.getRegexOptUnicodeCase().addActionListener(replacer);
+        this.getRegexOptUnixLines().addActionListener(replacer);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
+        highlighter.doHighlights();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,7 +169,6 @@ public class Gui extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         splitLimitTextField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("The Java Regex Coach");
         setMinimumSize(new java.awt.Dimension(600, 600));
 

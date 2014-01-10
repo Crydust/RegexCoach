@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package be.crydust.regexcoach;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JApplet;
+import javax.swing.JButton;
 
-/**
- *
- * @author kristof
- */
 public class Applet extends JApplet {
 
+    @Override
     public void init() {
-        new App().run();
+        final Gui swing = new Gui();
+        swing.initBehaviour();
+        swing.setVisible(false);
+
+        JButton button = new JButton("Open window");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                swing.setVisible(true);
+            }
+        });
+        getContentPane().add(button);
     }
 
 }

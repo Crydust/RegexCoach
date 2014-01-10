@@ -14,6 +14,9 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>*.jar</include>
+                <include>index.html</include>
+                <include>js/deployJava.js</include>
+                <include>js/deployJava.min.js</include>
             </includes>
         </fileSet>
         <fileSet>

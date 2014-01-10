@@ -20,13 +20,19 @@ limitations under the License.
         <meta charset="UTF-8" />
     </head>
     <body>
-        <script src="js/deployJava.js"></script>
+        <h1>${project.name}</h1>
+        <noscript><p>JavaScript is required for this application to work.</p></noscript>
+        <script src="js/deployJava.min.js"></script>
         <script>
-            var attributes = {code: '${project.groupId}.${project.artifactId}.Applet.class',
-                archive: '${project.build.finalName}.jar', width: 600, height: 600};
-            var parameters = {permissions: 'sandbox'};
-            var version = '${maven.compiler.target}';
-            deployJava.runApplet(attributes, parameters, version);
+            if (deployJava.versionCheck("1.7.0+")) {
+                var attributes = {code: '${project.groupId}.${project.artifactId}.Applet.class',
+                    archive: '${project.build.finalName}.jar', width: 200, height: 30};
+                var parameters = {permissions: 'sandbox'};
+                var version = '${maven.compiler.target}';
+                deployJava.runApplet(attributes, parameters, version);
+            } else {
+                document.write('<p><a href="java.com/getjava">Java</a> 1.7.0 or newer is required for this application to work.<\/p>');
+            }
         </script>
     </body>
 </html>
