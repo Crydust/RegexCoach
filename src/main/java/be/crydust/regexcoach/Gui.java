@@ -185,6 +185,7 @@ public class Gui extends javax.swing.JFrame {
         jLabel1.setText("Regular expression:");
         jPanel3.add(jLabel1, java.awt.BorderLayout.NORTH);
 
+        regexPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         jScrollPane1.setViewportView(regexPane);
 
         jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -247,6 +248,7 @@ public class Gui extends javax.swing.JFrame {
         jLabel2.setText("Target string:");
         jPanel4.add(jLabel2, java.awt.BorderLayout.NORTH);
 
+        targetPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         jScrollPane3.setViewportView(targetPane);
 
         jPanel4.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -335,6 +337,7 @@ public class Gui extends javax.swing.JFrame {
         jLabel9.setText("Replacement string:");
         jPanel5.add(jLabel9, java.awt.BorderLayout.NORTH);
 
+        replacementPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         jScrollPane2.setViewportView(replacementPane);
 
         jPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -350,6 +353,7 @@ public class Gui extends javax.swing.JFrame {
         jPanel6.add(jLabel11, java.awt.BorderLayout.NORTH);
 
         substitutionArea.setColumns(20);
+        substitutionArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         substitutionArea.setRows(5);
         substitutionArea.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jScrollPane4.setViewportView(substitutionArea);
@@ -368,6 +372,7 @@ public class Gui extends javax.swing.JFrame {
         splitPanel.add(jLabel10, java.awt.BorderLayout.NORTH);
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("NIY");
         jTextArea1.setMargin(new java.awt.Insets(3, 3, 3, 3));
