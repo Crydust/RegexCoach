@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 public class Gui extends javax.swing.JFrame {
@@ -35,6 +36,7 @@ public class Gui extends javax.swing.JFrame {
     public void initBehaviour() {
         RegexHighlighter highlighter = new RegexHighlighter(this);
         RegexReplacer replacer = new RegexReplacer(this);
+        RegexSplitter splitter = new RegexSplitter(this);
 
         // Text area mod listeners
         this.getRegexPane().addKeyListener(highlighter);
@@ -76,6 +78,23 @@ public class Gui extends javax.swing.JFrame {
         this.getRegexOptLiteral().addActionListener(replacer);
         this.getRegexOptUnicodeCase().addActionListener(replacer);
         this.getRegexOptUnixLines().addActionListener(replacer);
+
+        // Text area mod listeners
+        this.getRegexPane().addKeyListener(splitter);
+        this.getTargetPane().addKeyListener(splitter);
+        this.getReplacementPane().addKeyListener(splitter);
+
+        // Regex Options listeners
+        this.getRegexOptCaseInsensitive().addActionListener(splitter);
+        this.getRegexOptMultiline().addActionListener(splitter);
+        this.getRegexOptDotAll().addActionListener(splitter);
+        this.getRegexOptComments().addActionListener(splitter);
+        this.getRegexOptCanonEq().addActionListener(splitter);
+        this.getRegexOptLiteral().addActionListener(splitter);
+        this.getRegexOptUnicodeCase().addActionListener(splitter);
+        this.getRegexOptUnixLines().addActionListener(splitter);
+        
+        this.getDividerButtonGroup().getSelection().addChangeListener(splitter);
 
         this.pack();
         this.setLocationRelativeTo(null);
@@ -154,7 +173,7 @@ public class Gui extends javax.swing.JFrame {
         splitPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        splitArea = new javax.swing.JTextArea();
         jPanel8 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -371,12 +390,12 @@ public class Gui extends javax.swing.JFrame {
         jLabel10.setText("Split string:");
         splitPanel.add(jLabel10, java.awt.BorderLayout.NORTH);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setText("NIY");
-        jTextArea1.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        jScrollPane5.setViewportView(jTextArea1);
+        splitArea.setColumns(20);
+        splitArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        splitArea.setRows(5);
+        splitArea.setText("NIY");
+        splitArea.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        jScrollPane5.setViewportView(splitArea);
 
         splitPanel.add(jScrollPane5, java.awt.BorderLayout.CENTER);
 
@@ -599,6 +618,18 @@ public class Gui extends javax.swing.JFrame {
         return replacementStatus;
     }
 
+    public ButtonGroup getDividerButtonGroup() {
+        return dividerButtonGroup;
+    }
+
+    public JTextArea getSplitArea() {
+        return splitArea;
+    }
+
+    public JTextField getSplitLimitTextField() {
+        return splitLimitTextField;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel controlPanelWrapper;
@@ -653,7 +684,6 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel matchCount;
     private javax.swing.JSpinner matchNumber;
     private javax.swing.JCheckBox regexOptCanonEq;
@@ -670,6 +700,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel replacePanel;
     private javax.swing.JTextPane replacementPane;
     private javax.swing.JLabel replacementStatus;
+    private javax.swing.JTextArea splitArea;
     private javax.swing.JTextField splitLimitTextField;
     private javax.swing.JPanel splitPanel;
     private javax.swing.JSpinner startOfString;
