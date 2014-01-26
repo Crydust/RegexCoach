@@ -25,6 +25,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class Gui extends javax.swing.JFrame {
 
@@ -40,6 +42,7 @@ public class Gui extends javax.swing.JFrame {
         RegexReplacer replacer = new RegexReplacer(this);
         RegexSplitter splitter = new RegexSplitter(this);
         
+        // Add contextmenu to every textcomponent
         ContextMenuMouseListener contextMenu = new ContextMenuMouseListener();
         this.getRegexPane().addMouseListener(contextMenu);
         this.getTargetPane().addMouseListener(contextMenu);
@@ -51,6 +54,25 @@ public class Gui extends javax.swing.JFrame {
         // Text area mod listeners
         this.getRegexPane().addKeyListener(highlighter);
         this.getRegexPane().addCaretListener(highlighter);
+        // TODO (key and caret listeners dont detect copy-paste changes)
+        this.getRegexPane().getDocument().addDocumentListener(new DocumentListener(){
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println("insertUpdate");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                System.out.println("removeUpdate");
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                //NOOP
+            }
+        
+        });
         this.getTargetPane().addKeyListener(highlighter);
 
         // Regex Options listeners
