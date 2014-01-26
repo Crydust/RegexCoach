@@ -10,7 +10,7 @@ To run:
 ```java -jar RegexCoach.jar``` 
 
 Screenshot:  
-![Example 1](https://raw.github.com/Crydust/RegexCoach/master/docs/JavaRegexCoach.png)
+<img src="https://raw.github.com/Crydust/RegexCoach/master/docs/JavaRegexCoach.png" width="628" height="600" />
 
 Inspired by http://www.weitz.de/regex-coach/  
 and based on https://raw.github.com/edalquist/RegexCoach/master/RegexCoach.groovy
