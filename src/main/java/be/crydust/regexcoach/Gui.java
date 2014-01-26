@@ -39,6 +39,14 @@ public class Gui extends javax.swing.JFrame {
         RegexHighlighter highlighter = new RegexHighlighter(this);
         RegexReplacer replacer = new RegexReplacer(this);
         RegexSplitter splitter = new RegexSplitter(this);
+        
+        ContextMenuMouseListener contextMenu = new ContextMenuMouseListener();
+        this.getRegexPane().addMouseListener(contextMenu);
+        this.getTargetPane().addMouseListener(contextMenu);
+        this.getReplacementPane().addMouseListener(contextMenu);
+        this.getSubstitutionArea().addMouseListener(contextMenu);
+        this.getSplitArea().addMouseListener(contextMenu);
+        this.getSplitLimitTextField().addMouseListener(contextMenu);
 
         // Text area mod listeners
         this.getRegexPane().addKeyListener(highlighter);
