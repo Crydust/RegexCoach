@@ -16,10 +16,6 @@
 package be.crydust.regexcoach;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +23,7 @@ import java.util.regex.PatternSyntaxException;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 
-public class RegexReplacer extends KeyAdapter implements ActionListener {
+public class RegexReplacer implements EventBus.Handler {
 
     private static final DefaultHighlighter.DefaultHighlightPainter red = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
 
@@ -38,12 +34,7 @@ public class RegexReplacer extends KeyAdapter implements ActionListener {
     private final Gui swing;
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        doReplace();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent event) {
+    public void handleEvent() {
         doReplace();
     }
 

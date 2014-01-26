@@ -25,8 +25,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class Gui extends javax.swing.JFrame {
 
@@ -38,9 +36,77 @@ public class Gui extends javax.swing.JFrame {
     }
 
     public void initBehaviour() {
+        // Create the controllers
         RegexHighlighter highlighter = new RegexHighlighter(this);
         RegexReplacer replacer = new RegexReplacer(this);
         RegexSplitter splitter = new RegexSplitter(this);
+        
+        // listeners are bundled in "busses"
+        // which hide the event listener implementation from the controllers
+        EventBus commonEventBus = new EventBus()
+                .addHandler(highlighter)
+                .addHandler(replacer)
+                .addHandler(splitter);
+        EventBus highlighterEventBus = new EventBus(highlighter);
+        EventBus replacerEventBus = new EventBus(replacer);
+        EventBus splitterEventBus = new EventBus(splitter);
+
+        // Common
+        // ======
+        
+        // Text area mod listeners
+        this.getRegexPane().getDocument().addDocumentListener(commonEventBus);
+        this.getTargetPane().getDocument().addDocumentListener(commonEventBus);
+
+        // Regex Options listeners
+        this.getRegexOptCaseInsensitive().addActionListener(commonEventBus);
+        this.getRegexOptMultiline().addActionListener(commonEventBus);
+        this.getRegexOptDotAll().addActionListener(commonEventBus);
+        this.getRegexOptComments().addActionListener(commonEventBus);
+        this.getRegexOptCanonEq().addActionListener(commonEventBus);
+        this.getRegexOptLiteral().addActionListener(commonEventBus);
+        this.getRegexOptUnicodeCase().addActionListener(commonEventBus);
+        this.getRegexOptUnixLines().addActionListener(commonEventBus);
+
+        // Highlighter
+        // ===========
+        
+        // Selection listeners
+        this.getHighlightSelection().addActionListener(highlighterEventBus);
+        this.getHighlightNone().addActionListener(highlighterEventBus);
+        this.getHighlightGroup().addActionListener(highlighterEventBus);
+        this.getHighlightGroupNumber().addChangeListener(highlighterEventBus);
+
+        // Text area mod listeners
+        this.getRegexPane().addKeyListener(highlighterEventBus);
+        this.getRegexPane().addKeyListener(highlighterEventBus);
+        this.getRegexPane().addCaretListener(highlighterEventBus);
+
+        // Match change listeners
+        this.getMatchNumber().addChangeListener(highlighterEventBus);
+        this.getStartOfString().addChangeListener(highlighterEventBus);
+        this.getEndOfString().addChangeListener(highlighterEventBus);
+
+        // Replacer
+        // ========
+        
+        // Text area mod listeners
+        this.getReplacementPane().getDocument().addDocumentListener(replacerEventBus);
+
+        // Splitter
+        // ========
+        
+        // Divider radio buttons listeners
+        Enumeration<AbstractButton> dividerButtons = this.getDividerButtonGroup().getElements();
+        while (dividerButtons.hasMoreElements()) {
+            dividerButtons.nextElement().addActionListener(splitterEventBus);
+        }
+
+        // Split limit listeners
+        this.getSplitLimitTextField().getDocument().addDocumentListener(splitterEventBus);
+
+        // Context menu
+        // ============
         
         // Add contextmenu to every textcomponent
         ContextMenuMouseListener contextMenu = new ContextMenuMouseListener();
@@ -51,93 +117,12 @@ public class Gui extends javax.swing.JFrame {
         this.getSplitArea().addMouseListener(contextMenu);
         this.getSplitLimitTextField().addMouseListener(contextMenu);
 
-        // Text area mod listeners
-        this.getRegexPane().addKeyListener(highlighter);
-        this.getRegexPane().addCaretListener(highlighter);
-        // TODO (key and caret listeners dont detect copy-paste changes)
-        this.getRegexPane().getDocument().addDocumentListener(new DocumentListener(){
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                System.out.println("insertUpdate");
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                System.out.println("removeUpdate");
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                //NOOP
-            }
-        
-        });
-        this.getTargetPane().addKeyListener(highlighter);
-
-        // Regex Options listeners
-        this.getRegexOptCaseInsensitive().addActionListener(highlighter);
-        this.getRegexOptMultiline().addActionListener(highlighter);
-        this.getRegexOptDotAll().addActionListener(highlighter);
-        this.getRegexOptComments().addActionListener(highlighter);
-        this.getRegexOptCanonEq().addActionListener(highlighter);
-        this.getRegexOptLiteral().addActionListener(highlighter);
-        this.getRegexOptUnicodeCase().addActionListener(highlighter);
-        this.getRegexOptUnixLines().addActionListener(highlighter);
-
-        // Match change listeners
-        this.getMatchNumber().addChangeListener(highlighter);
-        this.getStartOfString().addChangeListener(highlighter);
-        this.getEndOfString().addChangeListener(highlighter);
-
-        // Selection listeners
-        this.getHighlightSelection().addActionListener(highlighter);
-        this.getHighlightNone().addActionListener(highlighter);
-        this.getHighlightGroup().addActionListener(highlighter);
-        this.getHighlightGroupNumber().addChangeListener(highlighter);
-
-        // Text area mod listeners
-        this.getRegexPane().addKeyListener(replacer);
-        this.getTargetPane().addKeyListener(replacer);
-        this.getReplacementPane().addKeyListener(replacer);
-
-        // Regex Options listeners
-        this.getRegexOptCaseInsensitive().addActionListener(replacer);
-        this.getRegexOptMultiline().addActionListener(replacer);
-        this.getRegexOptDotAll().addActionListener(replacer);
-        this.getRegexOptComments().addActionListener(replacer);
-        this.getRegexOptCanonEq().addActionListener(replacer);
-        this.getRegexOptLiteral().addActionListener(replacer);
-        this.getRegexOptUnicodeCase().addActionListener(replacer);
-        this.getRegexOptUnixLines().addActionListener(replacer);
-
-        // Text area mod listeners
-        this.getRegexPane().addKeyListener(splitter);
-        this.getTargetPane().addKeyListener(splitter);
-        this.getReplacementPane().addKeyListener(splitter);
-
-        // Regex Options listeners
-        this.getRegexOptCaseInsensitive().addActionListener(splitter);
-        this.getRegexOptMultiline().addActionListener(splitter);
-        this.getRegexOptDotAll().addActionListener(splitter);
-        this.getRegexOptComments().addActionListener(splitter);
-        this.getRegexOptCanonEq().addActionListener(splitter);
-        this.getRegexOptLiteral().addActionListener(splitter);
-        this.getRegexOptUnicodeCase().addActionListener(splitter);
-        this.getRegexOptUnixLines().addActionListener(splitter);
-        
-        // Divider radio buttons listeners
-        Enumeration<AbstractButton> dividerButtons = this.getDividerButtonGroup().getElements();
-        while (dividerButtons.hasMoreElements()) {
-            dividerButtons.nextElement().addActionListener(splitter);
-        }
-        
-        // Split limit listeners
-        this.getSplitLimitTextField().addKeyListener(splitter);
-
+        // Resize and center the window
         this.pack();
         this.setLocationRelativeTo(null);
-        highlighter.doHighlights();
+
+        // tell all controllers that the application has started
+        commonEventBus.actionPerformed(null);
     }
 
     /**
@@ -432,7 +417,6 @@ public class Gui extends javax.swing.JFrame {
         splitArea.setColumns(20);
         splitArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         splitArea.setRows(5);
-        splitArea.setText("NIY");
         splitArea.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jScrollPane5.setViewportView(splitArea);
 

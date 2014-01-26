@@ -15,17 +15,11 @@
  */
 package be.crydust.regexcoach;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class RegexSplitter extends KeyAdapter implements ActionListener, ChangeListener {
+public class RegexSplitter implements EventBus.Handler {
 
     //Deal with concurrent UI updates by tracking if we need to do an update and if we are currently in an update
     private final AtomicBoolean doUpdate = new AtomicBoolean(false);
@@ -34,17 +28,7 @@ public class RegexSplitter extends KeyAdapter implements ActionListener, ChangeL
     private final Gui swing;
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        doSplit();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent event) {
-        doSplit();
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
+    public void handleEvent() {
         doSplit();
     }
 
