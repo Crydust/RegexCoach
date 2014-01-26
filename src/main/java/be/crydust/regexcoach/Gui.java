@@ -15,6 +15,8 @@
  */
 package be.crydust.regexcoach;
 
+import java.util.Enumeration;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -94,7 +96,14 @@ public class Gui extends javax.swing.JFrame {
         this.getRegexOptUnicodeCase().addActionListener(splitter);
         this.getRegexOptUnixLines().addActionListener(splitter);
         
-        this.getDividerButtonGroup().getSelection().addChangeListener(splitter);
+        // Divider radio buttons listeners
+        Enumeration<AbstractButton> dividerButtons = this.getDividerButtonGroup().getElements();
+        while (dividerButtons.hasMoreElements()) {
+            dividerButtons.nextElement().addActionListener(splitter);
+        }
+        
+        // Split limit listeners
+        this.getSplitLimitTextField().addKeyListener(splitter);
 
         this.pack();
         this.setLocationRelativeTo(null);

@@ -16,7 +16,6 @@
 package be.crydust.regexcoach;
 
 import java.util.Objects;
-import javax.swing.JRadioButton;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -57,7 +56,12 @@ public class SplitterUiState {
         }
         splitLimit = newSplitLimit;
 
-        divider = GuiReader.getSelectedButtonText(swing.getDividerButtonGroup());
+        String newDivider = GuiReader.getSelectedButtonText(swing.getDividerButtonGroup());
+        if ("block".equals(newDivider)){
+            divider = "\u2588";
+        }else {
+            divider = newDivider;
+        }
     }
 
     @Override
@@ -66,6 +70,7 @@ public class SplitterUiState {
         hash = 29 * hash + Objects.hashCode(this.regex);
         hash = 29 * hash + Objects.hashCode(this.target);
         hash = 29 * hash + this.patternFlags;
+        hash = 29 * hash + Objects.hashCode(this.divider);
         hash = 29 * hash + Objects.hashCode(this.divider);
         return hash;
     }
@@ -86,6 +91,9 @@ public class SplitterUiState {
             return false;
         }
         if (this.patternFlags != other.patternFlags) {
+            return false;
+        }
+        if (this.splitLimit != other.splitLimit) {
             return false;
         }
         if (!Objects.equals(this.divider, other.divider)) {
@@ -120,6 +128,11 @@ public class SplitterUiState {
 
     public void setSplitString(String splitString) {
         this.splitString = splitString;
+    }
+
+    @Override
+    public String toString() {
+        return "SplitterUiState{" + "regex=" + regex + ", target=" + target + ", patternFlags=" + patternFlags + ", splitLimit=" + splitLimit + ", divider=" + divider + ", splitString=" + splitString + '}';
     }
 
 }

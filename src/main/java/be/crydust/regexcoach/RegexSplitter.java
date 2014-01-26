@@ -61,7 +61,6 @@ public class RegexSplitter extends KeyAdapter implements ActionListener, ChangeL
      * UI elements are added they must be tracked in the UiState object
      */
     public void doSplit() {
-        System.out.println("doSplit");
         //Makr that an update to the UI might be needed
         doUpdate.set(true);
 
@@ -99,7 +98,6 @@ public class RegexSplitter extends KeyAdapter implements ActionListener, ChangeL
      * @throws NullPointerException
      */
     static void updateState(SplitterUiState currentState) throws NullPointerException {
-        System.out.println("updateState");
         //There is a regex and a target
         try {
             if (currentState.getRegex().length() > 0 && currentState.getDivider() != null) {
