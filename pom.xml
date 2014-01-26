@@ -3,7 +3,7 @@
 
     <groupId>be.crydust</groupId>
     <artifactId>regexcoach</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>RegexCoach</name>
@@ -21,7 +21,7 @@
         <url>https://github.com/Crydust/RegexCoach</url>
         <connection>scm:git:git://github.com/Crydust/RegexCoach.git</connection>
         <developerConnection>scm:git:git@github.com:Crydust/RegexCoach.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>regexcoach-1.2</tag>
     </scm>
     
     <licenses>
